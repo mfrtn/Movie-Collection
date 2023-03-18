@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Mohammad\",\n  \"email\": \"mohammad@yahoo.com\",\n  \"role\": \"ADMIN\",\n  \"password\" : \"1234\"\n}",
+							"raw": "{\n  \"name\": \"Mohammad\",\n  \"email\": \"user3@yahoo.com\",\n  \"role\": \"CLIENT\",\n  \"password\" : \"1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -47,7 +47,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"user@yahoo.com\",\n  \"password\" : \"1234\"\n}",
+							"raw": "{\n  \"email\": \"user3@yahoo.com\",\n  \"password\" : \"1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -246,7 +246,7 @@
 					"response": []
 				},
 				{
-					"name": "Get a Collection By ID",
+					"name": "Get a Collection By ID With Movies",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -273,6 +273,40 @@
 								"api",
 								"collections",
 								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Collection By ID With Rates",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{CLIENT4}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:3000/api/collections/4/rates",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"collections",
+								"4",
+								"rates"
 							]
 						}
 					},
@@ -470,8 +504,17 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rate\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "127.0.0.1:3000/api/collections/1",
+							"raw": "127.0.0.1:3000/api/collections/4",
 							"host": [
 								"127",
 								"0",
@@ -482,7 +525,7 @@
 							"path": [
 								"api",
 								"collections",
-								"1"
+								"4"
 							]
 						}
 					},
@@ -636,6 +679,11 @@
 		{
 			"key": "OPERATOR",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIyMjMzQHlhaG9vLmNvbSIsImlhdCI6MTY3OTE0MDkzOCwiZXhwIjoxNjgyNzQwOTM4fQ.9JWypgfjtDfNnqz2QI9InNofpW60Y517JFO4e4TtrY8",
+			"type": "string"
+		},
+		{
+			"key": "CLIENT6",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQHlhaG9vLmNvbSIsImlhdCI6MTY3OTE1ODI1NywiZXhwIjoxNjgyNzU4MjU3fQ.xf6Lqfg8GPDjMciOLBtVXRJZt9LM6EjTMfr4_ITuCDo",
 			"type": "string"
 		}
 	]

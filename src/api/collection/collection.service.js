@@ -79,6 +79,71 @@ const collectionService = {
       },
     });
   },
+
+  newRate: async (collectionRateObject) => {
+    return await db.collectionRates.create({
+      data: collectionRateObject,
+    });
+  },
+
+  updateRate: async (collectionRateObject) => {
+    console.log(collectionRateObject);
+    return await db.collectionRates.update({
+      where: {
+        collectionId_userId: {
+          collectionId: collectionRateObject.collectionId,
+          userId: collectionRateObject.userId,
+        },
+      },
+      data: {
+        rate: collectionRateObject.rate,
+      },
+    });
+  },
+
+  findCollectionRate: async (collectionId, userId) => {
+    return await db.collectionRates.findUnique({
+      where: {
+        collectionId_userId: {
+          collectionId,
+          userId,
+        },
+      },
+    });
+  },
+
+  findAllRateOfACollection: async (id) => {
+    return [
+      await db.collection.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          rates: {
+            select: {
+              rate: true,
+            },
+          },
+        },
+      }),
+      await db.collectionRates.aggregate({
+        where: {
+          collectionId: id,
+        },
+        _avg: {
+          rate: true,
+        },
+      }),
+      await db.collectionRates.aggregate({
+        where: {
+          collectionId: id,
+        },
+        _count: {
+          rate: true,
+        },
+      }),
+    ];
+  },
 };
 
 module.exports = collectionService;

@@ -12,5 +12,7 @@ router.post("/:id/movies", collectionController.addMovies);
 router.delete("/:id/movies/:movieId", collectionController.removeMovie);
 router.patch("/:id", collectionController.update);
 router.delete("/:id", collectionController.destroy);
+router.post("/:id", collectionController.rate);
+router.get("/:id/rates", collectionController.findCollectionWithRates);
 
 module.exports = router;

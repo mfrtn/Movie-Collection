@@ -75,7 +75,7 @@ const collectionController = {
           return res.json({ result });
         } else {
           const error = new Error("Invalid Collection");
-          error.status = 500;
+          error.status = 400;
           return next(error);
         }
       } else {
@@ -147,7 +147,7 @@ const collectionController = {
         }
       } else {
         const error = new Error("Invalid Collection");
-        error.status = 500;
+        error.status = 400;
         return next(error);
       }
     } catch (error) {
@@ -172,9 +172,81 @@ const collectionController = {
         }
       } else {
         const error = new Error("Invalid Collection");
-        error.status = 500;
+        error.status = 400;
         return next(error);
       }
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+  rate: async (req, res, next) => {
+    collectionId = req.params.id;
+    try {
+      if (collectionId !== undefined && !isNaN(collectionId)) {
+        const collection = await collectionService.findById(
+          parseInt(collectionId)
+        );
+
+        if (collection) {
+          // Should Validate Body Request
+          const rate = req.body.rate;
+          if (!isNaN(rate)) {
+            const collectionRateObject = {
+              rate,
+              userId: req.user.id,
+              collectionId: collection.id,
+            };
+            if (
+              await collectionService.findCollectionRate(
+                collection.id,
+                req.user.id
+              )
+            ) {
+              // Update Rate: User has been rated before
+              updatedRateObj = await collectionService.updateRate(
+                collectionRateObject
+              );
+              return res.json(updatedRateObj);
+            } else {
+              // New Rate:
+              newRateObj = await collectionService.newRate(
+                collectionRateObject
+              );
+              return res.json(newRateObj);
+            }
+          } else {
+            const error = new Error("Invalid Rate");
+            error.status = 400;
+            return next(error);
+          }
+        } else {
+          const error = new Error("Invalid Collection");
+          error.status = 400;
+          return next(error);
+        }
+      } else {
+        const error = new Error("Invalid Collection");
+        error.status = 400;
+        return next(error);
+      }
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+  findCollectionWithRates: async (req, res, next) => {
+    try {
+      id = req.params.id;
+      if (id !== undefined && !isNaN(id)) {
+        const collection = await collectionService.findAllRateOfACollection(
+          parseInt(id)
+        );
+        if (collection) {
+          return res.json(collection).end();
+        }
+      }
+      return res.sendStatus(404);
     } catch (error) {
       return next(error);
     }
