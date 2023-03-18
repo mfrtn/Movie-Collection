@@ -60,6 +60,25 @@ const collectionService = {
       },
     });
   },
+
+  update: async (id, collectionObject) => {
+    return await db.collection.update({
+      where: {
+        id,
+      },
+      data: {
+        title: collectionObject.title,
+      },
+    });
+  },
+
+  destroy: async (id) => {
+    return await db.collection.delete({
+      where: {
+        id,
+      },
+    });
+  },
 };
 
 module.exports = collectionService;

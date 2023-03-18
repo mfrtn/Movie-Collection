@@ -41,13 +41,13 @@ const collectionController = {
           parseInt(collectionId)
         );
 
-        if (collection) {
+        if (collection && collection.userId === req.user.id) {
           const validMovieIDs = req.query.ids;
 
           for (const movieId of validMovieIDs) {
             let movie;
             if (!isNaN(movieId)) {
-              const movie = await movieService.findById(parseInt(movieId));
+              movie = await movieService.findById(parseInt(movieId));
             }
             if (movie) {
               const isMovieBelongsToCollection =
@@ -74,7 +74,7 @@ const collectionController = {
 
           return res.json({ result });
         } else {
-          const error = new Error("Invalid collection");
+          const error = new Error("Invalid Collection");
           error.status = 500;
           return next(error);
         }
@@ -119,6 +119,62 @@ const collectionController = {
       error = new Error("Invalid Request");
       error.status = 400;
       return next(error);
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+  update: async (req, res, next) => {
+    // Should Validate Body Request
+    collectionObject = req.body;
+
+    collectionId = req.params.id;
+    try {
+      if (collectionId !== undefined && !isNaN(collectionId)) {
+        oldCollection = await collectionService.findById(
+          parseInt(collectionId)
+        );
+        if (oldCollection.userId === req.user.id) {
+          newCollection = await collectionService.update(
+            parseInt(collectionId),
+            collectionObject
+          );
+          return res.status(202).json(newCollection);
+        } else {
+          error = new Error("It's Forbidden");
+          error.status = 403;
+          return next(error);
+        }
+      } else {
+        const error = new Error("Invalid Collection");
+        error.status = 500;
+        return next(error);
+      }
+    } catch (error) {
+      return next(error);
+    }
+  },
+
+  destroy: async (req, res, next) => {
+    collectionId = req.params.id;
+    try {
+      if (collectionId !== undefined && !isNaN(collectionId)) {
+        oldCollection = await collectionService.findById(
+          parseInt(collectionId)
+        );
+        if (oldCollection.userId === req.user.id) {
+          await collectionService.destroy(parseInt(collectionId));
+          return res.sendStatus(204);
+        } else {
+          error = new Error("It's Forbidden");
+          error.status = 403;
+          return next(error);
+        }
+      } else {
+        const error = new Error("Invalid Collection");
+        error.status = 500;
+        return next(error);
+      }
     } catch (error) {
       return next(error);
     }
