@@ -5,10 +5,10 @@
 #### TODO
 
 - [x] Collection CRUD API
-- [x] Collecation Create API
-- [x] Collecation Read API
-- [x] Collecation Update API
-- [x] Collecation Delete API
+- [x] Collection Create API
+- [x] Collection Read API
+- [x] Collection Update API
+- [x] Collection Delete API
 - [x] CollectionRates API
 - [x] Count Rates of a Collection
 - [x] Average Rates of a Collection
