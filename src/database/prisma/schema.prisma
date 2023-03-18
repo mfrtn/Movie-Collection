@@ -32,7 +32,7 @@ model Movie {
 model Collection {
     id        Int                   @id @default(autoincrement())
     title     String
-    User      User                  @relation(fields: [userId], references: [id])
+    user      User                  @relation(fields: [userId], references: [id])
     userId    Int
     rates     CollectionRates[]
     movies    MoviesOnCollections[]
@@ -42,9 +42,9 @@ model Collection {
 
 model MoviesOnCollections {
     id           Int        @id @default(autoincrement())
-    Movie        Movie      @relation(fields: [movieId], references: [id])
+    movie        Movie      @relation(fields: [movieId], references: [id])
     movieId      Int
-    Collection   Collection @relation(fields: [collectionId], references: [id])
+    collection   Collection @relation(fields: [collectionId], references: [id])
     collectionId Int
 
     @@unique([movieId, collectionId])
@@ -54,9 +54,9 @@ model CollectionRates {
     id Int @id @default(autoincrement())
 
     rate         Int
-    Collection   Collection @relation(fields: [collectionId], references: [id])
+    collection   Collection @relation(fields: [collectionId], references: [id])
     collectionId Int
-    User         User       @relation(fields: [userId], references: [id])
+    user         User       @relation(fields: [userId], references: [id])
     userId       Int
     createdAt    DateTime   @default(now())
     updatedAt    DateTime   @updatedAt
